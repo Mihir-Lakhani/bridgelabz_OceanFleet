@@ -30,7 +30,7 @@ public class VesselUtil {
     }
 
     private Double scanAllForMaxSpeed(){
-        Double maxSpeed = Double.MIN_VALUE;
+        Double maxSpeed = 0.0;
 
         if (vesselList.isEmpty()){
             return 0.0;
@@ -43,11 +43,11 @@ public class VesselUtil {
     }
 
     public List<Vessel> getHighestAvgSpeedVessels(){
-        Double maxSpeed = scanAllForMaxSpeed();
 
-        if (maxSpeed == 0){
-            return null;
+        if (vesselList.isEmpty()){
+            return new ArrayList<>();
         }
+        Double maxSpeed = scanAllForMaxSpeed();
 
         List<Vessel> topSpeedVessels = new ArrayList<>();
 
