@@ -1,3 +1,4 @@
+
 package in.mihirlakhani;
 
 import in.mihirlakhani.model.Vessel;
@@ -9,38 +10,81 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
         VesselUtil myVessels = new VesselUtil();
 
+        int choice;
 
-        System.out.println("Enter the number of vessels to be added");
-        int n = sc.nextInt();
-        sc.nextLine(); // Consume the newline after the number
+        do {
+            System.out.println("\n----- VESSEL MANAGEMENT -----");
+            System.out.println("1. Add Vessels");
+            System.out.println("2. Search Vessel by ID");
+            System.out.println("3. Display Highest Speed Vessels");
+            System.out.println("4. Exit");
+            System.out.println("Enter your choice:");
 
-        System.out.println("Enter vessel details\n(eg:- vesselId:vesselName:averageSpeed:vesselType)");
+            choice = sc.nextInt();
+            sc.nextLine();
 
-        for (int i = 0; i < n; i++) {
-            String[] details = sc.nextLine().split(":");
+            switch (choice) {
 
-            String id = details[0];
-            String name = details[1];
-            double value = Double.parseDouble(details[2]);
-            String type = details[3];
+                case 1:
+                    System.out.println("Enter number of vessels:");
+                    int n = sc.nextInt();
+                    sc.nextLine();
 
-            Vessel vessel = new Vessel(id, name, value, type);
-            myVessels.addVesselPerformance(vessel);
-        }
+                    System.out.println("Enter vessel details");
+                    System.out.println("Format: id:name:speed:type");
 
-        String vesselId = "V002";
-        Optional<Vessel> vesselById = myVessels.getVesselById(vesselId);
-        if (vesselById.isPresent()){
-            myVessels.printVesselData(vesselById.get());
-        }else{
-            System.out.printf("Vessel Id %s not found.", vesselId);
-        }
+                    for (int i = 0; i < n; i++) {
 
-        List<Vessel> topSpeedVessel = myVessels.getHighestAvgSpeedVessels();
-        myVessels.printVesselListData(topSpeedVessel);
+                        String[] details = sc.nextLine().split(":");
+
+                        String id = details[0];
+                        String name = details[1];
+                        double speed = Double.parseDouble(details[2]);
+                        String type = details[3];
+
+                        Vessel vessel = new Vessel(id, name, speed, type);
+
+                        myVessels.addVesselPerformance(vessel);
+                    }
+
+                    System.out.println("Vessels added successfully!");
+                    break;
+
+                case 2:
+                    System.out.println("Enter Vessel ID:");
+                    String vesselId = sc.nextLine();
+
+                    Optional<Vessel> vesselById =
+                            myVessels.getVesselById(vesselId);
+
+                    if (vesselById.isPresent()) {
+                        myVessels.printVesselData(vesselById.get());
+                    } else {
+                        System.out.println("Vessel Id " + vesselId + " not found.");
+                    }
+                    break;
+
+                case 3:
+                    List<Vessel> topSpeedVessel =
+                            myVessels.getHighestAvgSpeedVessels();
+
+                    System.out.println("Highest Speed Vessels:");
+                    myVessels.printVesselListData(topSpeedVessel);
+                    break;
+
+                case 4:
+                    System.out.println("Exiting program...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 4);
 
         sc.close();
     }
