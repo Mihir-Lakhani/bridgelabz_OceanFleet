@@ -71,6 +71,7 @@ public class VesselUtil {
 
         if (listOfVessels == null || listOfVessels.isEmpty()){
             System.out.println("No vessels found in the vessel list provided");
+            return;
         }
 
         for (int i = 0; i < listOfVessels.size(); i++){
